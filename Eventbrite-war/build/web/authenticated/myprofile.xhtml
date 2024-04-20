@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../layout/default.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        My Events
+    </ui:define>
+
+    <ui:define name="left">
+        <a href="landing.xhtml"><h2><i class="pi pi-home"></i> Home</h2></a><br/>
+        <a href="myevent.xhtml"><h2><i class="pi pi-calendar"></i> My Event</h2></a><br/>
+        <a href="myprofile.xhtml"><h2 class="active"><i class="pi pi-user"></i> My Profile</h2></a>
+
+        <div style="position:absolute; bottom:60px; left:0; float:left; display:flex">
+            <div style="margin-left:10px">
+                <h:form>
+                    <p:commandButton icon="pi pi-sign-out" type="submit" styleClass="btn btn-warning" value="Log out" action="#{customerManagedBean.logout}"></p:commandButton>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+    <ui:define name="content">
+        
+
+        <div class="container">
+            <div class="content-header">
+                My Profile
+            </div>
+            
+            <div class="ui-g">
+                <div class="ui-g-4">
+                    <img class="profile myprofile" src="data:image/png;base64, #{customerManagedBean.getImageContent(customerManagedBean.currCustomer.image)}" alt="Your Profile"/><br/>
+                    <br/>
+                    <a href="editPassword.xhtml">
+                        <button class="btn btn-success" style="margin-top:20px">Change Password</button>
+                    </a>
+                </div>
+               
+                <div class="ui-g-8" style="margin-top: 20px">
+                    <div class="ui-g">
+                        <div class="ui-g-4"> <h2>Name: </h2></div>
+                        <div class="ui-g-8"> <h2>#{customerManagedBean.currCustomer.name}</h2></div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-4"> <h2>Phone: </h2></div>
+                        <div class="ui-g-8"> <h2>#{customerManagedBean.currCustomer.phone}</h2></div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-4"> <h2>Email: </h2></div>
+                        <div class="ui-g-8"> <h2>#{customerManagedBean.currCustomer.email}</h2></div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-4"> <h2>Gender: </h2></div>
+                        <div class="ui-g-8"> <h2>
+                                <h:outputText value="Female" rendered="#{customerManagedBean.currCustomer.gender == 1}"/>
+                                <h:outputText value="Male" rendered="#{customerManagedBean.currCustomer.gender == 2}"/>
+                            </h2></div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-4"> <h2>Date of Birth: </h2></div>
+                        <div class="ui-g-8"> 
+                            <h2><h:outputText value="#{customerManagedBean.currCustomer.dob}">
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="Asia/Singapore"/>
+                                </h:outputText></h2></div>
+                    </div>
+                    <br/>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ">
+                            <a href="editProfile.xhtml">
+                                <button class="btn btn-success">Edit Profile</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

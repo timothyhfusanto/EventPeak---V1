@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/default.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Login to EventPeak
+    </ui:define>
+    
+    <ui:define name="left">
+        <a href="index.xhtml"><h2 class="active"><i class="pi pi-user-plus"></i> Log In</h2></a><br/>
+        <a href="signUp.xhtml"><h2><i class="pi pi-sign-in"></i> Sign Up</h2></a>
+    </ui:define>
+
+    <ui:define name="content">
+       <h:form id="form" enctype="multipart/form-data" styleClass="signup">
+            <h1 style="text-align: center">Log in to EventPeak</h1>
+            <h6 style="margin-bottom:5px; color: red; font-weight:normal">* Required</h6>
+
+            <p:panelGrid columns="2" style="width:100%; max-width:600px">
+                <h:outputLabel for="email">Email * </h:outputLabel> 
+                <h:panelGroup>
+                    <p:inputText id="email" value="#{customerManagedBean.email}" required="true" type="email" requiredMessage="Email is required"/> 
+                    <p:message for="email"/>
+                </h:panelGroup>
+
+                <h:outputLabel for="password">Password * </h:outputLabel> 
+                <h:panelGroup>
+                    <p:password id="password" value="#{customerManagedBean.password}" required="true" requiredMessage="Password is required"/> 
+                    <p:message for="password"/>
+                </h:panelGroup>
+            </p:panelGrid>
+
+            <p:commandButton id="button" style="margin-top:20px" styleClass="btn-success" value="Submit" ajax="false" action="#{customerManagedBean.login}" update=":form"/>
+            <p:messages/>
+       </h:form>
+    </ui:define>
+
+</ui:composition>

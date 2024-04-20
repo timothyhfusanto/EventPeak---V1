@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../layout/default.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="left">
+        <a href="landing.xhtml"><h2><i class="pi pi-home"></i> Home</h2></a><br/>
+        <a href="myevent.xhtml"><h2 class="active"><i class="pi pi-calendar"></i> My Event</h2></a><br/>
+        <a href="myprofile.xhtml"><h2><i class="pi pi-user"></i> My Profile</h2></a>
+
+        <div class="logout-position">
+            <div style="margin-left:10px">
+                <h:form id="logout">
+                    <p:commandButton update=":logout" icon="pi pi-sign-out" type="submit" styleClass="btn btn-warning" value="Log out" action="#{customerManagedBean.logout}"></p:commandButton>
+                </h:form >
+            </div>
+        </div>
+    </ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="eventId" value="#{customerManagedBean.eventId}" />
+            <f:event type="preRenderView" listener="#{customerManagedBean.loadSelectedEvent}"/>
+           
+        </f:metadata>
+        <div class="container">
+            <div class="content-header">
+                Event Detail
+            </div>
+            <br/><br/>
+           
+            <img class="event-detail-image" src="data:image/png;base64, #{customerManagedBean.getImageContent(customerManagedBean.selectedEvent.image)}" alt="Your Profile"/><br/>
+                
+            <div class="ui-g">
+                <div class="ui-g-12 ui-lg-6">
+                    <h1>#{customerManagedBean.selectedEvent.title}</h1>
+                </div>
+                <div class="ui-g-12 ui-lg-6"> 
+                    <h1><i class="fa fa-map-marker"></i> #{customerManagedBean.selectedEvent.location}</h1>
+                </div>
+            </div>
+            
+                        
+            <div class="ui-g">
+                <div class="ui-g-12"> <h3>#{customerManagedBean.selectedEvent.description}</h3></div>
+            </div>
+            <br/><br/>
+                    
+
+            <div class="ui-g">
+                <div class="ui-g-4"> <h2>Event Date: </h2></div>
+                <div class="ui-g-8"> 
+                    <h2>
+                        <h:outputText value="#{customerManagedBean.selectedEvent.eventDate}">
+                            <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss" timeZone="Asia/Singapore"/>
+                        </h:outputText>
+                    </h2>
+                </div>
+            </div>
+            <div class="ui-g">
+                <div class="ui-g-4"> <h2>Deadline to register: </h2></div>
+                <div class="ui-g-8"> 
+                    <h2>
+                        <h:outputText value="#{customerManagedBean.selectedEvent.deadline}">
+                            <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss" timeZone="Asia/Singapore"/>
+                        </h:outputText>
+                    </h2>
+                </div>
+            </div>
+                
+            <br/><br/>
+            
+            <h1>List of people registered</h1>
+            
+            <br/><br/><br/>
+            
+            
+            <h:form id="form">
+                <p:growl id="messages" showDetail="true"/>
+                <p:accordionPanel multiple="true">
+                    
+                    <p:tab title="Have not attended">
+                        <div class="ui-g">
+                            <div class="ui-g-3"><h2>Profile</h2></div>
+                            <div class="ui-g-3"><h2>Name</h2></div>
+                            <div class="ui-g-3"><h2>Gender</h2></div>
+                            <div class="ui-g-3"><h2>Action</h2></div>
+                        </div>
+                        <ui:fragment rendered="#{empty customerManagedBean.selectedEventCustomers}">
+                            <h2>No customer found </h2>
+                        </ui:fragment>
+                        <ui:repeat value="#{customerManagedBean.selectedEventCustomers}" var="customer">
+                            
+                            <div class="ui-g">
+                                <div class="ui-g-3">
+                                    <img class="event-profile profile" src="data:image/png;base64, #{customerManagedBean.getImageContent(customer.image)}" alt="Your Profile"/>
+                                </div>
+                                <div class="ui-g-3"><h3>#{customer.name}</h3></div>
+                                <div class="ui-g-3">
+                                    <h3>
+                                        <h:outputText value="Female" rendered="#{customer.gender == 1}"/>
+                                        <h:outputText value="Male" rendered="#{customer.gender == 2}"/>
+                                    </h3>
+                                </div>
+                                <div class="ui-g-3">
+                                    <h3>
+                                        <p:commandButton styleClass="btn btn-mark" value="Mark user" action="#{customerManagedBean.markUser}" update=":form" title="Mark">
+                                            <f:param name="customerId" value="#{customer.customerId}" />
+                                        </p:commandButton>
+                                    </h3>
+                                </div>
+                            </div>
+                        </ui:repeat>
+                    </p:tab>
+                    <p:tab title="Attended">
+                        <div class="ui-g">
+                            <div class="ui-g-3"><h2>Profile</h2></div>
+                            <div class="ui-g-3"><h2>Name</h2></div>
+                            <div class="ui-g-3"><h2>Gender</h2></div>
+                            <div class="ui-g-3"><h2>Action</h2></div>
+                        </div>
+                        <ui:fragment rendered="#{empty customerManagedBean.attendedEventCustomers}">
+                            <h2>No customer found </h2>
+                        </ui:fragment>
+                        <ui:repeat value="#{customerManagedBean.attendedEventCustomers}" var="customer">
+                            <div class="ui-g">
+                                <div class="ui-g-3">
+                                    <img class="event-profile profile" src="data:image/png;base64, #{customerManagedBean.getImageContent(customer.image)}" alt="Your Profile"/>
+                                </div>
+                                <div class="ui-g-3"><h3>#{customer.name}</h3></div>
+                                <div class="ui-g-3">
+                                    <h3>
+                                        <h:outputText value="Female" rendered="#{customer.gender == 1}"/>
+                                        <h:outputText value="Male" rendered="#{customer.gender == 2}"/>
+                                    </h3>
+                                </div>
+                                <div class="ui-g-3">
+                                    <h3>
+                                        <p:commandButton styleClass="btn btn-unmark" icon="fa fa-fw fa-times" value="Unmark user" action="#{customerManagedBean.unmarkUser}" update=":form" title="Unmark">
+                                            <f:param name="customerId" value="#{customer.customerId}" />
+                                        </p:commandButton>
+                                    </h3>
+                                </div>
+                            </div>
+                        </ui:repeat>
+                    </p:tab>
+
+                </p:accordionPanel>
+            </h:form>
+
+            
+        </div>
+    </ui:define>
+
+</ui:composition>

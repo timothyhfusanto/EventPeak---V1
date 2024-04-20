@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/default.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Sign up to EventPeak
+    </ui:define>
+    
+    <ui:define name="left">
+        <a href="index.xhtml"><h2><i class="pi pi-user-plus"></i> Log In</h2></a><br/>
+        <a href="signUp.xhtml"><h2 class="active"><i class="pi pi-sign-in"></i> Sign Up</h2></a>
+    </ui:define>
+
+    <ui:define name="content">
+        
+        <h:form id="form" enctype="multipart/form-data" styleClass="signup">
+            <h1 style="text-align: center">Sign up to EventPeak</h1>
+            <h6 style="margin-bottom:5px; color: red; font-weight:normal">* Required</h6>
+
+            <p:panelGrid columns="2" style="width:100%; max-width:600px">
+                <h:outputLabel for="name">Name *</h:outputLabel> 
+                <h:panelGroup>
+                    <p:inputText id="name" value="#{customerManagedBean.name}" required="true" requiredMessage="Name is required"/> 
+                    <p:message for="name"/>
+                </h:panelGroup>
+
+                <h:outputLabel>Gender </h:outputLabel>
+                <p:selectOneMenu value="#{customerManagedBean.gender}">
+                    <f:selectItem itemValue="1" itemLabel="Female" />
+                    <f:selectItem itemValue="2" itemLabel="Male" /> 
+                </p:selectOneMenu>
+                <h:outputLabel for="dob">Date of Birth (dd/mm/yyyy) * </h:outputLabel>
+                <h:panelGroup>
+                    <p:inputText id="dob" value="#{customerManagedBean.dob}" required="true" requiredMessage="Date of birth is required" converterMessage="Format should be dd/mm/yyy">
+                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="Asia/Singapore"/>
+                    </p:inputText>
+                    <p:message for="dob"/>
+                </h:panelGroup>
+
+                <h:outputLabel for="phone">Phone * </h:outputLabel> 
+                <h:panelGroup>
+                    <p:inputText id="phone" value="#{customerManagedBean.phone}" required="true" requiredMessage="Phone number is required"/>
+                    <p:message for="phone"/>
+                </h:panelGroup>
+
+                <h:outputLabel for="email">Email * </h:outputLabel> 
+                <h:panelGroup>
+                    <p:inputText id="email" value="#{customerManagedBean.email}" required="true" type="email" requiredMessage="Email is required"/> 
+                    <p:message for="email"/>
+                </h:panelGroup>
+
+                <h:outputLabel for="password">Password * </h:outputLabel> 
+                <h:panelGroup>
+                    <p:password id="password" value="#{customerManagedBean.password}" match="confirmpassword" required="true" requiredMessage="Password is required"/> 
+                    <p:message for="password"/>
+                </h:panelGroup>
+
+                <h:outputLabel for="confirmpassword">Confirm Password * </h:outputLabel> 
+                <h:panelGroup>
+                    <p:password id="confirmpassword" value="#{customerManagedBean.password}" required="true" requiredMessage="Confirm password is required"/> 
+                    <p:message for="confirmpassword"/>
+                </h:panelGroup>
+
+                <h:outputLabel>Profile Photo </h:outputLabel>
+                <h:panelGroup>
+                    <p:fileUpload id="uploadImage" value="#{customerManagedBean.file}" chooseIcon="" label="Upload" mode="simple" skinSimple="true" invalidSizeMessage="Maximum size allowed is 100kb" 
+                                  sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" accept=".gif,.jpg,.jpeg,.png" />
+                </h:panelGroup>
+            </p:panelGrid>
+
+            <p:commandButton id="button" validateClient="true" style="margin-top:20px" styleClass="btn-success" value="Submit" ajax="false" action="#{customerManagedBean.addCustomer}" update=":form"/>
+            <p:messages/>
+
+
+        </h:form>
+        
+        
+        
+    </ui:define>
+
+</ui:composition>

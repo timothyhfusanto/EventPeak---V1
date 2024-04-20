@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../layout/default.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        Edit Profile
+    </ui:define>
+
+    <ui:define name="left">
+        <a href="landing.xhtml"><h2><i class="pi pi-home"></i> Home</h2></a><br/>
+        <a href="myevent.xhtml"><h2><i class="pi pi-calendar"></i> My Event</h2></a><br/>
+        <a href="myprofile.xhtml"><h2 class="active"><i class="pi pi-user"></i> My Profile</h2></a>
+
+        <div style="position:absolute; bottom:60px; left:0; float:left; display:flex">
+            <div style="margin-left:10px">
+                <h:form>
+                    <p:commandButton icon="pi pi-sign-out" type="submit" styleClass="btn btn-warning" value="Log out" action="#{customerManagedBean.logout}"></p:commandButton>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            
+            <f:event type="preRenderView" listener="#{customerManagedBean.loadCurrCustomer}"/>
+        </f:metadata>
+        <div class="container">
+            <div class="content-header">
+                Edit Profile
+            </div>
+            
+            <h:form id="form" enctype="multipart/form-data">
+                <p:growl id="growl" showDetail="true" sticky="true" />
+                <div class="ui-g">
+                    <div class="ui-g-4">
+                        <img class="profile myprofile" src="data:image/png;base64, #{customerManagedBean.getImageContent(customerManagedBean.currCustomer.image)}" alt="Your Profile"/>
+                       <p:fileUpload id="uploadImage" value="#{customerManagedBean.file}" chooseIcon="" label="Upload" mode="simple" skinSimple="true" invalidSizeMessage="Size limit exceeded" 
+                                      sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" accept=".gif,.jpg,.jpeg,.png" />
+                    </div>
+
+                    <div class="ui-g-8" style="margin-top: 20px">
+                        <div class="ui-grid">
+                            <div class="ui-g-4"> <h2>Name: </h2></div>
+                            <div class="ui-g-8">
+                                <h2><p:inputText id="name" value="#{customerManagedBean.name}" required="true" requiredMessage="Name is required"/></h2>
+                            </div>
+                        </div>
+                        <div class="ui-grid">
+                            <div class="ui-g-4"> <h2>Phone: </h2></div>
+                            <div class="ui-g-8"> 
+                                <h2><p:inputText id="phone" value="#{customerManagedBean.phone}" required=" true" requiredMessage="Phone is required"/></h2>
+                            </div>
+                        </div>
+                        <div class="ui-grid">
+                            <div class="ui-g-4"> <h2>Email: </h2></div>
+                            <div class="ui-g-8"> 
+                                <h2><p:inputText id="email" disabled="true" type="email" value="#{customerManagedBean.email}" required="true" requiredMessage="Email is required"/></h2>
+                            </div>
+                        </div>
+                        <div class="ui-grid">
+                            <div class="ui-g-4"> <h2>Gender: </h2></div>
+                            <div class="ui-g-8">
+                                <h2>
+                                    <p:selectOneMenu value="#{customerManagedBean.gender}">
+                                        <f:selectItem itemValue = "1" itemLabel = "Female" />
+                                        <f:selectItem itemValue = "2" itemLabel = "Male" />
+                                    </p:selectOneMenu>
+                                </h2>          
+                            </div>
+                        </div>
+                        <div class="ui-grid">
+                            <div class="ui-g-4"> <h2>Date of Birth: </h2></div>
+                            <div class="ui-g-8"> 
+                                <h2>
+                                    <p:inputText id="dob" value="#{customerManagedBean.dob}" required="true" requiredMessage="DOB is required" converterMessage="Format should be dd/mm/yyy">
+                                        <f:convertDateTime pattern="dd/MM/yyy"/>
+                                    </p:inputText>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="ui-grid">
+                            <div class="ui-g-12">
+                                <p:commandButton value="Save" styleClass="btn btn-success" ajax="false" action="#{customerManagedBean.updateCustomer}" update=":form"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

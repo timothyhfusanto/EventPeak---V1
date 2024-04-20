@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/default.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="css/default.css"/>
+        <h:outputStylesheet name="css/cssLayout.css"/>
+        <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+        <title><ui:insert name="title">title</ui:insert></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+
+    <h:body>
+
+        <p:layout style="min-width:400px;min-height:200px;" fullPage="true">
+            <p:layoutUnit position="west" header="EventPeak" styleClass="menu-header" resizable="true" size="200" minSize="130" maxSize="300" collapsible="true">
+                <div style="padding: 10px">
+                    <ui:insert name="left">
+                        left
+                    </ui:insert>
+                </div>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center" styleClass="content">
+                <ui:insert name="content">Content</ui:insert>
+                <div class="footer">
+                    <h4>&#169; Timothy Fusanto</h4>                           
+                </div>
+                
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+
+</html>
